@@ -1,14 +1,15 @@
----
 
-# Dataset Documentation: Competitive Market Event Dataset
+# Dataset Documentation
+
+**Competitive Market Event Dataset (Japan: Electronics Retail & Food Service)**
 
 ---
 
 ## 1. Introduction
 
-This dataset has been constructed to support the empirical analysis of **competitive market behavior between firms offering similar services**. The primary purpose of the dataset is to systematically capture **observable competitive actions**—such as price changes, promotions, service expansions, and strategic initiatives—and to document how rival firms respond to these actions over time.
+This dataset documents **competitive market events** between firms offering similar services within the same industry. Each record represents a **single, verifiable strategic action** initiated by one firm and observed within a competitive context involving one or more rival firms.
 
-The dataset enables **event-based analysis of competitive dynamics**, allowing researchers to study response likelihood, response timing, and strategic interaction patterns in oligopolistic and competitive markets. It is designed to support **descriptive analysis, econometric modeling, and comparative strategy evaluation** within the domains of economics, management, and applied engineering analytics.
+The dataset is designed to support **economics and management-oriented empirical analysis**, particularly in the areas of **oligopolistic competition, strategic interaction, and competitive response behavior**. Rather than capturing transactional or customer-level data, the dataset focuses on **observable firm-level actions**, which are the primary signals through which competitive strategy is publicly revealed.
 
 ---
 
@@ -16,7 +17,7 @@ The dataset enables **event-based analysis of competitive dynamics**, allowing r
 
 ### Scope
 
-- **Industries covered**:
+- **Industries included**:
     
     - Electronics Retail
         
@@ -24,114 +25,162 @@ The dataset enables **event-based analysis of competitive dynamics**, allowing r
         
 - **Geographic scope**: Japan
     
-- **Market structure**: Primarily duopoly / oligopoly
-    
-- **Time span**: 2018–2024
+- **Time coverage**: 2018–2024
     
 - **Unit of observation**: One competitive market event per row
+    
+- **Total events**: Structured across multiple competing firm pairs
     
 
 ### Design Rationale
 
-The dataset is **event-based rather than transaction-based**, reflecting how competitive strategy is discussed and observed in real-world markets. Each record represents a **clearly identifiable strategic action** initiated by one firm and situated within a competitive context involving at least one rival.
+Competitive behavior in real markets is often **event-driven**, such as:
 
-The selected time span captures:
+- price reductions
+    
+- promotional campaigns
+    
+- service expansions
+    
+- digital initiatives
+    
+- product or menu changes
+    
 
-- Pre-COVID competitive behavior
-    
-- COVID-period strategic adjustments
-    
-- Post-COVID normalization and digital acceleration
-    
+Accordingly, the dataset is **event-based**, allowing each row to represent a discrete strategic action. This design aligns with how competitive interactions are reported in practice and analyzed in **industrial organization and strategic management research**.
 
-Attributes were chosen to reflect **observable and verifiable market behavior** rather than inferred or estimated outcomes, ensuring analytical transparency.
+The selected time period captures:
+
+- pre-pandemic competition
+    
+- COVID-era strategic adjustments
+    
+- post-pandemic normalization and digitalization
+    
 
 ---
 
 ## 3. Data Sources and Origin
 
-### Data Origin
+### Source Type
 
-The dataset is constructed from **secondary publicly available sources**, including:
+The dataset is constructed from **credible secondary data sources**, including:
 
-- Reputed business newspapers (e.g., Nikkei Asia, Japan Times, Reuters)
-    
-- Major national newspapers
+- National and international business newspapers
     
 - Financial and industry-focused media outlets
     
 
-### Source Selection Justification
+Examples of source publications include:
+
+- Nikkei Asia
+    
+- Japan Times
+    
+- Reuters
+    
+- Mainichi
+    
+- Financial Times
+    
+
+### Source Selection Criteria
 
 Sources were selected based on:
 
-- Editorial credibility
+- verifiability of reported events
     
-- Verifiability of reported events
+- consistency in publication archives
     
-- Consistent archival availability
-    
-- Coverage of strategic firm actions rather than opinion
+- focus on factual reporting of firm actions
     
 
-### Dataset Type
+### Dataset Classification
 
 - **Hybrid dataset**
     
-    - Real-world events (dates, firms, actions, sources)
+    - Real-world events (firms, dates, actions, sources)
         
-    - Structured and standardized into a synthetic analytical format
+    - Structured into a standardized analytical format
         
 
-No numerical values were fabricated. Where exact figures were unavailable, **categorical or directional descriptors** were used instead.
+No numerical values were fabricated or inferred beyond what was explicitly reported.
 
 ---
 
 ## 4. Data Extraction and Construction Methodology
 
-### Step 1: Event Identification
+### Step-by-Step Construction
 
-- News articles and reports were screened to identify **explicit competitive actions**
-    
-- Only actions with clear initiating firms and competitive relevance were included
-    
+#### Step 1: Event Identification
 
-### Step 2: Event Filtering
+Public news articles were screened to identify **explicit competitive actions**, such as:
 
-Each event had to satisfy:
-
-- Clear initiating company
+- price changes
     
-- Identifiable competing firm(s)
+- promotions
     
-- Explicit action type (price, promotion, service, product, digital)
+- service or delivery expansions
     
-- Verifiable publication source and date
+- digital or loyalty initiatives
+    
+- product or menu introductions
     
 
-### Step 3: Attribute Assignment
+#### Step 2: Event Qualification
 
-For each event:
+An event was included only if:
 
-- Firm roles (initiator, responder) were recorded
+- the initiating firm was clearly identified
     
-- Action categories were standardized
+- at least one competing firm operated in the same market
     
-- Industry and country context were assigned
+- the action had strategic or competitive relevance
     
-- URLs were preserved for traceability
+- the event date and source were verifiable
     
 
-### Assumptions Used
+#### Step 3: Attribute Assignment
+
+For each qualifying event:
+
+- the initiating firm and responding firm(s) were recorded
+    
+- the industry and country context were assigned
+    
+- the action type was standardized into a controlled vocabulary
+    
+- the source name and URL were preserved for traceability
+    
+
+#### Assumptions
 
 - One event represents one strategic decision instance
     
 - Competitive relevance is inferred from market overlap
     
-- Absence of a reported response is treated as **no immediate response**
+- Absence of reported response implies no immediate observable response
     
 
-### Sample Dataset Snippet
+---
+
+## 5. Dataset Structure and Schema
+
+### Schema Overview
+
+|Column Name|Data Type|Description|
+|---|---|---|
+|`event_id`|String|Unique identifier for each competitive event|
+|`industry`|Categorical|Industry classification (e.g., Electronics Retail, Food Service)|
+|`country`|Categorical|Country where the event occurred|
+|`initiating_company`|String|Firm initiating the strategic action|
+|`responding_company`|String|Competing firm(s) affected by the action|
+|`event_date`|Date (YYYY-MM-DD)|Date of the reported event|
+|`source_name`|String|Name of the publication|
+|`source_url`|String|URL linking to the original source|
+|`action_type`|Categorical|Type of competitive action|
+
+### Example Records
 
 |event_id|industry|initiating_company|responding_company|action_type|
 |---|---|---|---|---|
@@ -140,77 +189,50 @@ For each event:
 
 ---
 
-## 5. Dataset Structure and Schema
-
-### Schema Description
-
-|Column Name|Data Type|Description|
-|---|---|---|
-|event_id|String|Unique event identifier|
-|industry|Categorical|Industry classification|
-|country|Categorical|Country of occurrence|
-|initiating_company|String|Firm initiating action|
-|responding_company|String|Competitor(s) affected|
-|event_date|Date (YYYY-MM-DD)|Date of action|
-|source_name|String|Publication name|
-|source_url|String|Source URL|
-|action_type|Categorical|Type of competitive action|
-
-### Encoding Notes
-
-- Dates follow ISO format
-    
-- Action types are text-based categorical labels
-    
-- No numerical normalization was applied at this stage
-    
-
----
-
 ## 6. Data Preprocessing and Cleaning
 
-Preprocessing focused strictly on **data integrity**, not outcome optimization.
+Data preprocessing was performed strictly to ensure **data integrity**, not to optimize analytical outcomes.
 
-### Cleaning Steps
+### Cleaning Procedures
 
-- Removal of duplicate event entries
+- removal of duplicate events
     
-- Standardization of company names
+- standardization of company names
     
-- Validation of date formats
+- validation of date formats
     
-- Verification of URL presence
+- verification that all events fall within the defined time range
     
 
 ### Missing Data Handling
 
-- No missing values were imputed
+- No imputation was performed
     
-- Attributes without reliable information were left blank rather than assumed
+- Attributes without reliable information were left blank
     
-
-This approach prioritizes **transparency over completeness**.
+- This avoids introducing artificial precision or bias
+    
 
 ---
 
 ## 7. Data Quality Assurance and Validation
 
-Quality assurance was ensured through:
+Quality assurance measures included:
 
-- Cross-verification of events across multiple sources where possible
+- cross-checking events across multiple publications where possible
     
-- Logical consistency checks (e.g., event dates within scope)
+- verifying consistency between action type and industry context
     
-- Industry consistency validation for firms
+- ensuring all records contain a valid source URL
     
 
-The dataset was reviewed to ensure:
+Logical checks ensured that:
 
-- Each event is independently traceable
+- event dates align with reported time frames
     
-- No conflicting attribute assignments exist
+- firms operate within the specified industry
     
-- All rows conform to a unified schema
+- schema consistency is maintained across all rows
     
 
 ---
@@ -219,28 +241,28 @@ The dataset was reviewed to ensure:
 
 ### Reliability
 
-- High reliability for **event occurrence and timing**
+- High reliability for event occurrence and timing
     
-- Strong traceability through source URLs
+- Strong transparency due to direct source linking
     
 
 ### Limitations
 
-- No direct sales, revenue, or demand quantities
+- No direct measures of sales, revenue, or demand
     
-- Market share changes are not numerically quantified
+- No customer-level behavior data
     
-- Consumer behavior is inferred indirectly through strategic actions
-    
-
-### Bias Considerations
-
-- Media coverage bias toward large firms
-    
-- Underreporting of minor or local competitive responses
+- Competitive responses are inferred from observable actions only
     
 
-The dataset prioritizes **analytical validity over exhaustive market coverage**.
+### Potential Biases
+
+- Media attention bias toward large or well-known firms
+    
+- Possible underrepresentation of minor or localized responses
+    
+
+These limitations are explicitly acknowledged to maintain analytical rigor.
 
 ---
 
@@ -248,22 +270,20 @@ The dataset prioritizes **analytical validity over exhaustive market coverage**.
 
 The dataset is fully reproducible by:
 
-1. Following the documented source selection criteria
+1. Applying the same event inclusion criteria
     
-2. Applying the same event definition rules
+2. Using identical source types
     
-3. Using identical schema and inclusion constraints
+3. Following the documented schema and construction rules
     
 
-All assumptions are explicitly stated, and no hidden transformations are applied.
+All assumptions and transformations are explicitly stated, ensuring transparency for independent verification.
 
 ---
 
 ## 10. Conclusion
 
-This dataset provides a **structured, transparent, and reproducible foundation** for analyzing competitive market behavior across multiple firm pairs. Its event-based design reflects real-world strategic decision-making and supports empirical analysis using descriptive statistics, econometric models, and comparative strategy evaluation.
-
-The dataset is well-suited for **economics and management-oriented studies**, enabling systematic examination of competitive responses without reliance on fabricated or unverifiable numerical assumptions.
+This dataset provides a **structured, transparent, and reproducible representation of competitive market events** across multiple firm pairs and industries. Its event-based design reflects real-world strategic behavior and is well-suited for **economics and management analysis**, including competitive response modeling, strategic comparison, and policy-relevant interpretation.
 
 ---
 
