@@ -35,3 +35,24 @@ The model explains the "Tit-for-Tat" behavior observed in the empirical data as 
 *   **The Trap of Commoditization**: Managers should recognize that competing solely on price inevitably leads to the (Price Cut, Price Cut) trap. While necessary for defense, it cannot be a primary driver of long-term value.
 *   **Signaling matters**: The speed of response is as important as the response itself. Rapid matching signals to competitors that aggression will not yield share gains, potentially dampening the intensity of future attacks.
 *   **Escaping the Prisoner's Dilemma**: To break the cycle of price erosion, firms must alter the payoff structure. This can be achieved by redefining the "Product" (e.g., bundling services, exclusive channels) so that a rival's price cut is no longer a direct substitute, rendering the "Price Cut" strategy less effective.
+
+## 7. Theoretical Connections and Literature Review
+
+### 7.1 Tacit Collusion and Green-Porter (1984)
+The empirical observation of "Maintain" phases punctuated by "Price Matching" in the Retail sector strongly aligns with **Green and Porter's (1984)** model of non-cooperative collusion under imperfect information.
+*   *Theory*: Firms cannot perfectly observe rival actions, so they use "trigger prices" to punish perceived deviations.
+*   *Evidence*: The 7-14 day lag represents the "information verification" period. The "Price Matching" events act as the reversion to Cournot/Bertrand competition (punishment phase) before stabilizing again.
+
+### 7.2 Maskin and Tirole (1988) - Markov Perfection
+The deterministic nature of responses (Diagonal Heatmap) supports **Maskin and Tirole’s** concept of Markov Perfect Equilibria (MPE).
+*   *Theory*: Strategies depend only on the payoff-relevant state (the rival's last price).
+*   *Evidence*: Our EDA shows that $Action_t$ is a strong predictor of $Response_{t+k}$, suggesting firms employ memory-less strategies focusing on the immediate competitive state rather than long histories.
+
+### 7.3 Hotelling’s Linear City and Differentiation
+The divergence between "Price" and "Channel/Product" strategies reflects the classic **Hotelling (1929)** result on the principle of minimum differentiation vs. maximal differentiation.
+*   *Price Competition*: Firms cluster (Minimum Differentiation) leading to Bertrand traps.
+*   *Product Innovation*: The shift to "Energy Drinks" or "Fiber Broadband" represents an attempt to maximize differentiation (distance on the product line) to soften price competition ($ \partial \pi / \partial p > 0 $).
+
+### 7.4 Porter’s Strategic Groups
+The separation of players into "Stable Duopoly" (Retail) and "Disruptive Oligopoly" (Telecom) validates **Porter’s (1980)** theory of Strategic Groups.
+*   *Implication*: Mobility barriers (e.g., spectrum licenses, logistics networks) prevent the "Retail" logic from applying to "Telecom" and vice versa. Game theoretic models must be effectively "localized" to the strategic group to have predictive power.

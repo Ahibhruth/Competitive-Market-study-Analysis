@@ -79,3 +79,48 @@ $$ \pi_i(s_i, s_{-i}) = M_i(s_i, s_{-i}) + \lambda P_i(s_i) $$
 1.  **Binary Response Simplification**: The model categorizes responses broadly (Match/Differentiation), losing nuance in the *magnitude* of response (e.g., 5% vs 10% price cut).
 2.  **Lag Time Abstraction**: While we treat the game as repeated, the specific impact of the *length* of delay (e.g., 7 days vs 14 days) on the payoff function is not explicitly modeled, though EDA shows it varies by sector.
 3.  **Missing Cost Data**: We assume cost structures based on "Margin" implications, but we lack direct financial data to quantify $C$ or $V$ precisely.
+
+## 8. Formal Game Theoretic Extensions
+
+### 8.1 Strategy Formalization
+Let $h_t = (a^0, a^1, ..., a^{t-1})$ denote the public history of actions at time $t$, where $a^\tau = (a_1^\tau, ..., a_n^\tau)$ is the action profile at period $\tau$. A pure strategy $\sigma_i$ for player $i$ is a mapping from the set of all possible histories $\mathcal{H}$ to the action set $A_i$:
+
+$$ \sigma_i: \mathcal{H} \to A_i $$
+
+Given the EDA evidence of "Tit-for-Tat" (Retail) and "Immediate Retaliation" (Telecom), we posit that players utilize **Markov Strategies** conditioned on the most recent state $k$ (where $k$ represents the lag window):
+
+$$ \sigma_i(h_t) \approx \sigma_i(a_{-i, t-1}, ..., a_{-i, t-k}) $$
+
+*   **Retail Case ($k \approx 7-14$ days)**: Strategies depend on aggregate behavior over the last cycle.
+*   **Telecom Case ($k \to 0$ days)**: Strategies respond to instantaneous moves: $\sigma_i(a_{-i, t})$.
+
+### 8.2 Payoff Function Decomposition
+We decompose the instantaneous payoff function $u_i(a)$ into **Market Share Retention ($R$)** and **Profit Margin ($M$)**, adjusted by a **differentiation parameter** $\theta$:
+
+$$ u_i(a_i, a_{-i}) = \underbrace{\alpha \cdot R(a_i, a_{-i})}_\text{Volume Effect} + \underbrace{(1-\alpha) \cdot M(a_i) \cdot \mathbb{I}(a_i \neq a_{-i})}_\text{Differentiation Premium} - \underbrace{C(a_i)}_\text{Implementation Cost} $$
+
+Where:
+*   $\alpha \in [0,1]$: Weight on market share (higher for Telecom disruptors).
+*   $\mathbb{I}(\cdot)$: Indicator function for product differentiation.
+*   $C(a_i)$: Cost function (Low for Price cuts, High for Channel expansion).
+
+**EDA Connection**:
+*   *Price War*: Both choose $s_{price} \implies M(a_i)$ drops, $\mathbb{I}=0$. Payoff is low $(-C, -C)$.
+*   *Differentiation*: One chooses $s_{price}$, other $s_{channel} \implies \mathbb{I}=1$. Margins are preserved for the differentiator.
+
+### 8.3 Information Structure & Lag
+The "Response Lag" ($\Delta_t$) identified in the EDA acts as an information friction parameter.
+
+*   **Perfect Monitoring (Telecom)**: $\Delta_t \to 0$. Actions are observable $a_{-i, t}$ at time $t$.
+    *   *Implication*: Supports subgame perfect equilibria with immediate punishment.
+*   **Imperfect Monitoring (Retail)**: $\Delta_t \sim N(\mu=10, \sigma^2)$. Player $i$ observes a noisy signal $y_t$ of rival's action.
+    *   *Implication*: Explains the "Maintain" periods; firms wait for signal confirmation before retaliating to avoid Type I errors (starting a price war falsely).
+
+### 8.4 Mapping EDA Behaviors to Equilibrium Concepts
+
+| Observed Behavior (EDA) | Game Theoretic Equivalent | Formal Condition |
+| :--- | :--- | :--- |
+| **0-Day Response (Telecom)** | **Grim Trigger / Immediate Punishment** | $\delta > \frac{g}{g+l}$ (Discount factor high enough to sustain collusion, or cost of delay is infinite) |
+| **7-14 Day Lag (Retail)** | **Monitoring Delay / Inspection Game** | Observability $\omega < 1$; Response occurs only when $P(\text{Defection} | \text{Signal}) > \text{Threshold}$ |
+| **Price Matching (Diagonal)** | **Nash Equilibrium in Prices (Bertrand)** | $BR_i(s_{price}) = s_{price}$ where $p_i = p_j$ |
+| **Channel vs. Price (Off-Diagonal)** | **Product Differentiation (Hotelling)** | $\frac{\partial \pi_i}{\partial s_{channel}} > \frac{\partial \pi_i}{\partial s_{price}}$ given rival plays $s_{price}$ |
