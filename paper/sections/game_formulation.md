@@ -15,6 +15,8 @@ Based on the EDA findings, we define two distinct player sets corresponding to t
     *   *Characteristics*: Asymmetric capabilities, high-stakes market share battles.
 
 ## 3. Strategy Sets ($S_i$)
+The strategy space is constructed by abstracting the empirical action and response categories defined in Section 3.2 of the main paper. The formal definitions of **competitive action** (a publicly observable strategic initiative by a firm) and **competitive response** (a subsequent counter-move by a competitor) provide the empirical foundation for our game-theoretic constructs. Each observed action type (e.g., "price promotion," "menu expansion," "channel expansion") maps to one of four abstract strategies, allowing us to translate granular competitive events into a tractable game structure.
+
 Derived explicitly from the "Action Types" and "Response Types" identified in the EDA (Section 3.2), the strategy space $S_i$ for player $i$ includes:
 
 $$S_i = \{s_{\text{maintain}}, s_{\text{price}}, s_{\text{product}}, s_{\text{channel}}\}$$
@@ -56,24 +58,69 @@ Each assumption is grounded in the EDA findings:
     *   *Justification*: The "Crisis Sensitivity" finding (Section 4) indicates that external shocks (COVID, Regulatory) alter the payoff matrix, forcing shifts from $s_{\text{price}}$ to $s_{\text{channel}}$ (e.g., Online/Delivery).
 
 ## 6. Payoff Structure
-We define the payoff function $\pi_i(s_i, s_{-i})$ based on ordinal preferences derived from "Response Observed" and "Market Share Change" proxies.
+We define the payoff function $\pi_i(s_i, s_{-i})$ based on ordinal preferences derived from "Response Observed" and "Market Share Change" proxies observed in the EDA.
 
 Let $\pi_i$ be composed of Market Share ($M$) and Margin ($P$).
 
 $$ \pi_i(s_i, s_{-i}) = M_i(s_i, s_{-i}) + \lambda P_i(s_i) $$
 
-**Ordinal Payoff Matrix (Proxy):**
+### 6.1 Payoff Parameter Definitions and Empirical Justification
+
+We define four key payoff parameters, each grounded in observable competitive outcomes:
+
+**G (Unilateral Gain from Aggression)**: Market share gain when one firm initiates a competitive move (price cut, promotion) while the rival maintains status quo.
+*   *Empirical Evidence*: The "No Response" cases (7.5% of observations) show the aggressive firm capturing share. In Telecom, Jio's initial free data offers (unmatched for months) yielded subscriber gains, validating G > 0.
+*   *Magnitude Justification*: Market Share Change marked as "Increase" in EDA dataset for unilateral movers.
+*   *Ordinal Value*: G = +3 (highest single-period payoff, representing temporary monopolistic advantage).
+
+**L (Loss from Being Undercut)**: Market share loss when a firm maintains status quo while rival cuts price or launches aggressive promotion.
+*   *Empirical Evidence*: Same "No Response" scenarios from rival's perspective. The 90%+ response rate indicates firms perceive L as severe enough to justify immediate retaliation costs.
+*   *Magnitude Justification*: The extremely high response rate (>90%) reveals that -L must be worse than the cost of matching (-C), otherwise firms would tolerate being undercut.
+*   *Ordinal Value*: L = -2 (worse than price war outcome, representing significant share erosion).
+
+**C (Cost of Mutual Price War)**: Margin erosion when both firms simultaneously cut prices or engage in promotional battles.
+*   *Empirical Evidence*: "Price promotion" → "Promotional price matching" pairs (dominant pattern in Electronics Retail heatmap) show "Neutral" market share outcomes, but implicit margin compression.
+*   *Magnitude Justification*: The prevalence of price-matching cycles (diagonal density in action-response heatmap >70%) indicates firms accept -C as necessary defense, but it preserves more value than surrender (-L).
+*   *Ordinal Ranking*: -C > -L (i.e., -1 > -2), meaning mutual war is less damaging than unilateral defeat.
+*   *Ordinal Value*: C = -1 (both firms erode margins but maintain relative positions).
+
+**V (Value from Mutual Differentiation)**: Preserved margins when both firms compete on product/channel innovation rather than price.
+*   *Empirical Evidence*: FMCG cases where "New product launch" met with "Alternative strategy" (e.g., Coca-Cola's Sting energy drink vs. PepsiCo's alternative energy focus) show "Positive" sentiment and maintained pricing power.
+*   *Magnitude Justification*: Firms pivot to product differentiation after price war episodes (observed in "Differentiation as Exit Strategy" pattern), revealing that V > -C and potentially V > 0.
+*   *Ordinal Value*: V = +2 (cooperative outcome preserving margins for both firms, though lower than monopolistic gain G).
+
+**Ordinal Ranking Validation**: G > V > 0 > -C > -L (i.e., +3 > +2 > 0 > -1 > -2)
+*   *Empirical Support*: 
+    *   High response rate (>90%) confirms -C > -L (firms prefer matching to surrender)
+    *   Shift to differentiation after price wars confirms V > -C (escape from prisoner's dilemma)
+    *   Rare "No Response" confirms G > 0 (unilateral aggression pays when unpunished)
+    *   G > V follows from defection temptation in prisoner's dilemma structure
+
+### 6.2 Complete Payoff Matrix with Empirically Resolved Asymmetric Entries
 
 | Player 1 \ Player 2 | Maintain ($s_m$) | Price Cut ($s_p$) | Product Innovation ($s_d$) |
 | :--- | :--- | :--- | :--- |
 | **Maintain ($s_m$)** | $(0, 0)$ | $(-L, G)$ | $(-L, G)$ |
-| **Price Cut ($s_p$)** | $(G, -L)$ | $(-C, -C)$ | $(?, ?)$ |
-| **Product ($s_d$)** | $(G, -L)$ | $(?, ?)$ | $(V, V)$ |
+| **Price Cut ($s_p$)** | $(G, -L)$ | $(-C, -C)$ | $(G/2, -L/2)$ |
+| **Product ($s_d$)** | $(G, -L)$ | $(-L/2, G/2)$ | $(V, V)$ |
 
-*   **Status Quo $(0,0)$**: "Neutral" market share estimate (observed in 60% of cases).
+*   **Status Quo $(0,0)$**: "Neutral" market share estimate (observed in 60% of cases with no competitive action).
 *   **Unilateral Aggression $(G, -L)$**: If Firm 1 plays $s_p$ (Price Cut) and Firm 2 plays $s_m$, Firm 1 gains share ($G$) and Firm 2 loses ($-L$). *Evidence*: "Response Observed = No" is rare (7.5%), implying firms avoid this outcome.
 *   **Price War $(-C, -C)$**: Both play $s_p$. Share remains "Neutral" (Section 2, Table 1 in EDA), but margins erode. *Evidence*: High frequency of "Price adjustment" pairs with "Neutral" market share outcome.
 *   **Differentiation $(V, V)$**: Both play $s_d$ (Product/Channel). Margins are preserved. *Evidence*: "Channel expansion" met with "Logistics lead" retention results in "Positive" sentiment.
+
+**Previously Unspecified Asymmetric Entries (Resolved)**:
+
+*   **(Price Cut, Product Diff) → $(G/2, -L/2)$**: When Firm 1 cuts price while Firm 2 differentiates on product/channel.
+    *   *Empirical Evidence*: EDA heatmap shows "Price hikes" (or cuts) often trigger "Alternative strategies" rather than matching in FMCG/Telecom (off-diagonal cells). The outcome is intermediate: price cutter gains some price-sensitive customers (partial G), while differentiator loses some share but retains loyal segment (partial L).
+    *   *Justification*: Product differentiation provides *partial insulation* against price competition. Examples: When Jio cut prices, Airtel's "Premium postpaid" differentiation retained high-value customers despite subscriber count pressure. Similarly, Coca-Cola's "New product launches" during PepsiCo price promotions maintained brand premium in certain segments.
+    *   *Ordinal Logic*: G/2 > 0 > -L/2 > -L, confirming differentiation strategy is defensive but not fully protective against price aggression.
+
+*   **(Product Diff, Price Cut) → $(-L/2, G/2)$**: Symmetric case by role reversal.
+    *   *Empirical Evidence*: When one firm launches "New product" while rival responds with "Competitive price action," the innovator faces customer defection from price-sensitive segments but retains differentiation premium.
+    *   *Example*: Retail electronics cases where one firm expanded channel (e.g., online platform) while rival matched with aggressive point redemption promotions—both captured partial gains in different customer segments.
+
+**Critical Implication**: The resolution of these asymmetric payoffs reveals that **pure product differentiation ($s_d$) is NOT a dominant defense** against price cuts in the stage game. Since $G/2 > -L/2$ for the price cutter, firms cannot unilaterally escape price competition through differentiation alone. This explains why mutual coordination on $(V, V)$ requires repeated game enforcement mechanisms (analyzed in Equilibrium section).
 
 ## 7. Model Limitations
 1.  **Binary Response Simplification**: The model categorizes responses broadly (Match/Differentiation), losing nuance in the *magnitude* of response (e.g., 5% vs 10% price cut).

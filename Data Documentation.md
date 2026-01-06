@@ -138,6 +138,31 @@ An event was included only if:
 - the action had strategic or competitive relevance
     
 - the event date and source were verifiable
+
+#### Step 2.5: Conceptual Framework: Actions vs. Responses
+
+To ensure consistency in event classification, we operationalized the distinction between **competitive actions** and **competitive responses** as follows:
+
+##### Competitive Action Criteria
+An event qualified as a **competitive action** if it met all of the following:
+1. **Initiative**: The firm made the first observable move in a new competitive episode (not a direct response to a prior competitor move within 30 days).
+2. **Strategic Intent**: The move aimed to alter the competitive landscape through price changes, product/service modifications, or channel adjustments.
+3. **Public Observability**: The action was announced or reported in verifiable business publications with specific dates.
+4. **Market Impact**: The action targeted customer acquisition, retention, or competitive positioning.
+
+##### Competitive Response Criteria
+An event qualified as a **competitive response** if:
+1. **Temporal Sequence**: It occurred after a competitor's action with a plausible causal link (typically within 0-90 days).
+2. **Strategic Alignment**: The response directly addressed or countered the initiating action (e.g., price matching, service parity, alternative differentiation).
+3. **Attribution**: Business reports explicitly or implicitly linked the response to the competitor's action through timing, public statements, or strategic context.
+4. **Observable Lag**: The time between action and response could be measured and recorded as `response_lag_days`.
+
+##### Response Type Classification
+- **Symmetric Responses**: Same strategic domain as the action (Price→Price, Product→Product).
+- **Asymmetric Responses**: Different strategic domain (Price→Product, Product→Channel).
+- **No Observed Response**: No verifiable competitive counter-move within 90 days or by the end of the dataset period.
+
+This framework ensured that the `action_type` and `response_type` fields captured genuine strategic interactions rather than coincidental market moves.
     
 
 #### Step 3: Attribute Assignment
