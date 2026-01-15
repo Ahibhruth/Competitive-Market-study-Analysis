@@ -66,16 +66,16 @@ We constructed two distinct datasets capturing event-based competitive interacti
     \centering
     \caption{Dataset Summary Statistics}
     \label{tab:dataset_summary}
-    \begin{tabular}{llrr}
+    \begin{tabular}{lllrr}
     \toprule
-    \textbf{Sector} & \textbf{Period} & \textbf{N} & \textbf{Rate} \\
+    \textbf{Sector} & \textbf{Firms} & \textbf{Period} & \textbf{N} & \textbf{Rate} \\
     \midrule
-    Electronics Retail (JP) & 2018--2024 & 20 & 90.0\% \\
-    Food Service (JP) & 2018--2024 & 20 & 92.5\% \\
-    Telecom (India) & 2016--2024 & 20 & 90.0\% \\
-    FMCG (India) & 2017--2025 & 20 & 95.0\% \\
+    Electronics Retail (JP) & BIC Camera, Yodobashi Camera & 2018--2024 & 20 & 90.0\% \\
+    Food Service (JP) & Sukiya, Yoshinoya & 2018--2024 & 20 & 92.5\% \\
+    Telecom (India) & Jio, Airtel, Vodafone Idea & 2016--2024 & 20 & 90.0\% \\
+    FMCG (India) & Reliance, Coca-Cola, PepsiCo & 2017--2025 & 20 & 95.0\% \\
     \midrule
-    \textbf{Total} & & \textbf{80} & \textbf{91.9\%} \\
+    \textbf{Total} & & & \textbf{80} & \textbf{91.9\%} \\
     \bottomrule
     \end{tabular}
     \vspace{0.1cm}
@@ -94,7 +94,10 @@ The dataset construction followed a systematic three-stage process designed to e
 
 \textbf{Stage 3: Response Identification.} For each qualifying action, we searched for subsequent competitive responses within a 90-day window. Responses were coded as observed only when business reports explicitly or implicitly linked the subsequent action to the initial move through timing, public statements, or strategic context. The 90-day cutoff was chosen to balance comprehensive coverage with practical observability constraints.
 
-\textbf{Coding Protocol.} Two research assistants independently coded action types and response types using a pre-defined taxonomy (Price, Product, Channel). Inter-rater reliability was assessed using Cohen's kappa ($\kappa = 0.87$), indicating strong agreement. Discrepancies were resolved through discussion and reference to original sources.
+\textbf{Coding Protocol.} Two research assistants independently coded action types and response types using a pre-defined taxonomy (Price, Product, Channel). Inter-rater reliability was assessed using Cohen's kappa ($\kappa = 0.87$), indicating strong agreement. Discrepancies were resolved through discussion and reference to original sources. The coding logic applied the following decision rules: actions were classified as \textit{Price} if they involved tariff changes, promotional pricing, or loyalty point adjustments; as \textit{Product} if they introduced new services, menu items, or feature enhancements; and as \textit{Channel} if they expanded distribution networks, store footprints, or delivery infrastructure. For responses, coders assessed whether the reaction matched the initiating action's domain (symmetric) or employed an alternative strategic lever (asymmetric). This structured approach ensured consistent classification across heterogeneous competitive events while maintaining the ability to capture strategic nuance.
+
+\subsection{Data Sources}
+All data were collected from publicly available business publications and verified through multiple independent sources. The primary sources include: \textit{Nikkei Asia} (https://asia.nikkei.com), \textit{Japan Times} (https://www.japantimes.co.jp), \textit{Reuters} (https://www.reuters.com), \textit{Economic Times India} (https://economictimes.indiatimes.com), \textit{Mainichi Shimbun} (https://mainichi.jp), and \textit{Financial Times} (https://www.ft.com). Each competitive event was documented with source URL, publication date, and event date to ensure traceability and reproducibility. The full dataset with source links is available upon request for replication purposes.
 
 \subsection{Data Limitations}
 Several limitations should be acknowledged:
@@ -108,6 +111,8 @@ Several limitations should be acknowledged:
 \end{enumerate}
 
 Despite these limitations, the dataset provides a rare granular view of competitive dynamics at the event level, enabling empirical validation of game-theoretic predictions regarding firm behavior in oligopolistic markets.
+
+\textbf{Summary of Limitations:} The dataset's scope is constrained by public observability, qualitative inference of causality, and absence of proprietary financial metrics. These constraints are inherent to publicly sourced competitive intelligence data but do not undermine the study's core contribution: empirically documenting response patterns at the event level and validating game-theoretic predictions regarding strategic interdependence in oligopolistic markets.
 
 \subsection{Defining Competitive Actions and Responses}
 
@@ -168,7 +173,7 @@ Figure \ref{fig:lag_dist} illustrates these distributions.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=3.5in]{figures/eda/response_lag_distribution.png}
-    \caption{Response Lag Distribution: Electronics Retail (Left) vs. Telecom/FMCG (Right). The left panel shows Japanese retail/food service with a tight, symmetric distribution centered around 10 days, reflecting scheduled promotional cycles. The right panel shows Indian telecom/FMCG with a bimodal distribution: a sharp spike at 0 days (immediate algorithmic responses in telecom) and a long tail extending to 90 days (complex product/channel responses in FMCG).}
+    \caption{Response Lag Distribution: Electronics Retail (Left) vs. Telecom/FMCG (Right) ($n=73$ responses). The x-axis represents response lag in days (0--90), and the y-axis shows frequency (count of observations). The left panel shows Japanese retail/food service with a tight, symmetric distribution centered around 10 days (mean=10.7, median=10.0, SD=4.8), reflecting scheduled promotional cycles. The right panel shows Indian telecom/FMCG with a bimodal distribution: a sharp spike at 0 days (immediate algorithmic responses in telecom) and a long tail extending to 90 days (mean=12.2, median=7.0, SD=21.4), reflecting complex product/channel responses in FMCG.}
     \label{fig:lag_dist}
 \end{figure}
 
@@ -182,7 +187,7 @@ Figure \ref{fig:heatmap} visualizes these interaction patterns. The diagonal den
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=3.5in]{figures/eda/action_type_vs_response_type_heatmap.png}
-    \caption{Action-Response Heatmap: Japanese Electronics Retail and Food Service. Rows represent initiating action types, and columns represent response types. Cell color intensity indicates frequency (darker = more observations). The strong diagonal density demonstrates symmetric tit-for-tat behavior: firms predominantly match the type of competitive action they face.}
+    \caption{Action-Response Heatmap: Japanese Electronics Retail and Food Service ($n=40$ actions). Rows represent initiating action types (e.g., Price Promotion, Loyalty Incentive, Service Enhancement), and columns represent response types. Cell color intensity indicates frequency (darker = more observations, scale 0--8). The strong diagonal density demonstrates symmetric tit-for-tat behavior: firms predominantly match the type of competitive action they face. Off-diagonal cells represent asymmetric responses.}
     \label{fig:heatmap}
 \end{figure}
 
@@ -223,7 +228,7 @@ Symmetric responses dominate price contests: price cuts typically trigger matche
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=3.5in]{figures/eda/action_type_vs_response_type_heatmap_copy.png}
-    \caption{Action-Response Heatmap: Indian Telecom and FMCG. Similar structure to Fig.~\ref{fig:heatmap}, but with more off-diagonal density. While price actions still trigger price responses (diagonal), we observe greater asymmetric behavior: price cuts met with alternative offers (data boosts, bundling) and product launches countered by distribution pushes rather than direct cloning.}
+    \caption{Action-Response Heatmap: Indian Telecom and FMCG ($n=40$ actions). Rows represent initiating action types, and columns represent response types. Cell color intensity indicates frequency (scale 0--8). Similar structure to Fig.~\ref{fig:heatmap}, but with more off-diagonal density. While price actions still trigger price responses (diagonal), we observe greater asymmetric behavior: price cuts met with alternative offers (data boosts, bundling) and product launches countered by distribution pushes rather than direct cloning.}
     \label{fig:heatmap_telecom}
 \end{figure}
 
